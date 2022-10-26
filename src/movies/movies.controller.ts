@@ -10,11 +10,13 @@ import {
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Movie } from '../entities/movies.entity';
+import { CreateMovieDto } from 'src/dto/createMovie.dto';
+import { UpdateMovieDto } from 'src/dto/updateMovie.dto';
 
 @Controller('movies') //라우팅 경로
 export class MoviesController {
   // return 시 res.status().json() 이런 거 안 붙여 줘도 알아서 해줌
-  // 생성자 매개변수에 Service 클래스를 보내주는 방식으로 Controller와 Service 연결
+  // 생성자 매개변수에 Service 클래스 타입을 지정해주는 방식으로 Controller와 Service 연결
   constructor(private readonly moviesService: MoviesService) {}
   @Get()
   getAll(): Movie[] {
@@ -32,7 +34,7 @@ export class MoviesController {
   }
   // Body 데이터를 사용하려면 @Body 데코레이터로 요청 해야함
   @Post()
-  create(@Body() data) {
+  create(@Body() data: CreateMovieDto) {
     return this.moviesService.create(data);
   }
 
@@ -42,7 +44,7 @@ export class MoviesController {
   }
 
   @Patch('/:id')
-  patch(@Param('id') movieId: string, @Body() updateData) {
+  patch(@Param('id') movieId: string, @Body() updateData: UpdateMovieDto) {
     return this.moviesService.updateMovie(movieId, updateData);
   }
 }
