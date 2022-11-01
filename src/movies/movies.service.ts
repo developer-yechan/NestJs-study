@@ -10,17 +10,17 @@ export class MoviesService {
   getAll(): Movie[] {
     return this.movies;
   }
-  getOne(movieId: string): Movie {
-    const movie = this.movies.find((movie) => movie.id === +movieId);
+  getOne(movieId: number): Movie {
+    const movie = this.movies.find((movie) => movie.id === movieId);
     if (!movie) {
       // NestJs에서 제공하는 예외처리
       throw new NotFoundException(`Movie with Id ${movieId} not found`);
     }
     return movie;
   }
-  deleteOne(movieId: string): boolean {
+  deleteOne(movieId: number): boolean {
     this.getOne(movieId);
-    this.movies = this.movies.filter((movie) => movie.id !== +movieId);
+    this.movies = this.movies.filter((movie) => movie.id !== movieId);
     return true;
   }
   create(movieData: CreateMovieDto): Movie {
@@ -31,7 +31,7 @@ export class MoviesService {
     return this.movies[this.movies.length - 1];
   }
 
-  updateMovie(movieId: string, movieData: UpdateMovieDto) {
+  updateMovie(movieId: number, movieData: UpdateMovieDto) {
     const movie = this.getOne(movieId);
     this.deleteOne(movieId);
     this.movies.push({ ...movie, ...movieData });

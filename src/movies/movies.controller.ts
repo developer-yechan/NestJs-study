@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Movie } from '../entities/movies.entity';
-import { CreateMovieDto } from 'src/dto/createMovie.dto';
-import { UpdateMovieDto } from 'src/dto/updateMovie.dto';
+import { CreateMovieDto } from '../dto/createMovie.dto';
+import { UpdateMovieDto } from '../dto/updateMovie.dto';
 
 @Controller('movies') //라우팅 경로
 export class MoviesController {
@@ -29,7 +29,7 @@ export class MoviesController {
   }
   // 파라미터 데이터를 사용 하려면 @Param 데코레이터로 요청 해야함
   @Get('/:id')
-  getOne(@Param('id') movieId: string): Movie {
+  getOne(@Param('id') movieId: number): Movie {
     return this.moviesService.getOne(movieId);
   }
   // Body 데이터를 사용하려면 @Body 데코레이터로 요청 해야함
@@ -39,12 +39,12 @@ export class MoviesController {
   }
 
   @Delete('/:id')
-  remove(@Param('id') movieId: string) {
+  remove(@Param('id') movieId: number) {
     return this.moviesService.deleteOne(movieId);
   }
 
   @Patch('/:id')
-  patch(@Param('id') movieId: string, @Body() updateData: UpdateMovieDto) {
+  patch(@Param('id') movieId: number, @Body() updateData: UpdateMovieDto) {
     return this.moviesService.updateMovie(movieId, updateData);
   }
 }
